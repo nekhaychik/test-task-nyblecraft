@@ -13,7 +13,7 @@ export class UserRepository {
   }
 
   public delete({ _id }: DeleteParameters): Promise<DeleteResult> {
-    return this.userRepository.delete({ _id })
+    return this.userRepository.delete({ _id });
   }
 
   public findByEmail({ email }: FindByEmailParameters): Promise<UserEntity> {

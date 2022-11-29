@@ -12,13 +12,8 @@ export class UserController {
   @Put('/')
   @UseInterceptors(FileInterceptor('file'))
   public async createUser(@UploadedFile() file: Express.Multer.File, @Body() body: CreateUserInput): Promise<CreateUserResult> {
-    try {
-      const result = await this.userService.createUser({ file, ...body });
-      return { status: Status.success, data: result };
-    }
-    catch (err) {
-      throw err;
-    }
+    const result = await this.userService.createUser({ file, ...body });
+    return { status: Status.success, data: result };
   }
 
   @Delete(':email')
@@ -26,40 +21,30 @@ export class UserController {
     return this.userService.deleteUser({ ...params });
   }
 
-  @Get(':email')
+  @Get('/get/:email')
   public async getUserByEmail(@Param() params: GetUserByEmailInput): Promise<GetUserByEmailResult> {
-    try {
-      const { email } = params;
-
-      const user = await this.userService.getUserByEmail({ email });
-
-      return { status: Status.success, data: user };
-    }
-    catch (err) {
-      return { status: Status.error, data: err };
-    }
+    const user = await this.userService.getUserByEmail({ ...params });
+    return { status: Status.success, data: user };
   }
 
   @Get('/all')
   public async getAllUsers(): Promise<GetAllUsersResult> {
-    try {
-      const users = await this.userService.getAllUsers();
+    const users = await this.userService.getAllUsers();
+    return { status: Status.success, data: users };
+  }
 
-      return { status: Status.success, data: users };
-    }
-    catch (err) {
-      return { status: Status.error, data: err };
-    }
+  @Post('update-image/:email')
+  @UseInterceptors(FileInterceptor('file'))
+  public async updateUserImage(
+    @Param() params: UpdateUserParams,
+    @UploadedFile() file: Express.Multer.File,
+  ): Promise<UpdateUserResult> {
+    return await this.userService.updateUser({ ...params, file });
   }
 
   @Post(':email')
   @UseInterceptors(FileInterceptor('file'))
-  public async updateUser(
-    @Param() params: UpdateUserParams,
-    @Body() body: UpdateUserInput,
-    @UploadedFile() file?: Express.Multer.File
-  ): Promise<UpdateUserResult> {
-    return await this.userService.updateUser({ ...params, ...body, file });
+  public async updateUser(@Param() params: UpdateUserParams, @Body() body: UpdateUserInput): Promise<UpdateUserResult> {
+    return await this.userService.updateUser({ ...params, ...body });
   }
-
 }

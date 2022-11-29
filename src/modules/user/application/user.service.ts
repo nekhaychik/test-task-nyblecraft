@@ -41,8 +41,7 @@ export class UserService {
 
       return await this.userDomain.deleteUser({ _id: user._id });
     } catch (err) {
-
-      throw new Error(err);
+      throw err;
     }
   }
 
@@ -56,14 +55,12 @@ export class UserService {
 
       return user;
     } catch (err) {
-      throw new Error(err);
+      throw err;
     }
   }
 
   public async getAllUsers(): Promise<UserDto[]> {
-
-      return await this.userDomain.getAllUsers();
-
+    return await this.userDomain.getAllUsers();
   }
 
   public async updateUser({ email, newEmail, firstName, lastName, file, pdf }: UpdateUserParameters): Promise<StatusResult> {
@@ -74,7 +71,7 @@ export class UserService {
         throw new BadRequestException('User with this email does not exist');
       }
 
-      return await this.userDomain.updateUser({ _id: user._id, email: newEmail, firstName, lastName, image: file.path, pdf });
+      return await this.userDomain.updateUser({ _id: user._id, email: newEmail, firstName, lastName, image: file?.path, pdf });
     } catch (err) {
       throw new Error(err);
     }

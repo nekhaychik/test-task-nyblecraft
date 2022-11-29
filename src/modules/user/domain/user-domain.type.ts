@@ -1,6 +1,5 @@
 import { Status } from '../core';
 
-
 export interface CreateUserParameters {
   email: string;
   firstName: string;
@@ -14,7 +13,6 @@ export interface DeleteUserParameters {
 
 export interface StatusResult {
   status: Status;
-  data?: Error;
 }
 
 export interface GetUserByEmailParameters {
