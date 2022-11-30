@@ -13,7 +13,6 @@ export interface DeleteUserParameters {
 
 export interface StatusResult {
   status: Status;
-  data?: Error;
 }
 
 export interface GetUserByEmailParameters {
@@ -27,4 +26,25 @@ export interface UpdateUserParameters {
   lastName?: string;
   file?: Express.Multer.File;
   pdf?: Buffer;
+}
+
+export interface generatePdfParameters {
+  email: string;
+}
+
+export interface StatusWithDataResult {
+  status: Status;
+  data: {
+    pdfPath: string;
+  };
+}
+
+export interface CreateUserPdfFromDBParameters {
+  email: string;
+}
+
+export interface WriteFileSyncParameters {
+  path: string;
+  buffer: Buffer;
+  permission?: string | number;
 }

@@ -8,7 +8,7 @@ import { CreateParameters, DeleteParameters, FindByEmailParameters, UpdateParame
 export class UserRepository {
   constructor(@InjectRepository(UserEntity) private userRepository: Repository<UserEntity>) {}
 
-  public async create({ email, firstName, lastName, image }: CreateParameters): Promise<UserEntity> {
+  public create({ email, firstName, lastName, image }: CreateParameters): Promise<UserEntity> {
     return this.userRepository.save({ email, firstName, lastName, image });
   }
 
