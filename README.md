@@ -28,12 +28,18 @@ Stack: NestJS, TypeORM, MySQL, Docker
 
 ## Installation
 
+Create .env file (watch .env.example)
+
 ```bash
 $ npm install
 ```
 
 ## Running the app
 
+```bash
+# start docker container
+$ docker compose up
+```
 ```bash
 # development
 $ npm run start
