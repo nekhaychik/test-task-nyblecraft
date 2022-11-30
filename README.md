@@ -24,7 +24,7 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Stack: NestJS, TypeORM, MySQL, Docker
 
 ## Installation
 
