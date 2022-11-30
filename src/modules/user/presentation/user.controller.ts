@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '@nestjs/passport';
 import { UserService } from '../application';
 import { Status } from '../core';
 import {
@@ -33,23 +34,27 @@ export class UserController {
   }
 
   @Delete(':email')
+  @UseGuards(AuthGuard('jwt'))
   public deleteUser(@Param() params: DeleteUserInput): Promise<DeleteUserResult> {
     return this.userService.deleteUser({ ...params });
   }
 
   @Get('/get/:email')
+  @UseGuards(AuthGuard('jwt'))
   public async getUserByEmail(@Param() params: GetUserByEmailInput): Promise<GetUserByEmailResult> {
     const user = await this.userService.getUserByEmail({ ...params });
     return { status: Status.success, data: user };
   }
 
   @Get('get-all')
+  @UseGuards(AuthGuard('jwt'))
   public async getAllUsers(): Promise<GetAllUsersResult> {
     const users = await this.userService.getAllUsers();
     return { status: Status.success, data: users };
   }
 
   @Post('update-image/:email')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileInterceptor('file'))
   public async updateUserImage(
     @Param() params: UpdateUserParams,
@@ -59,17 +64,20 @@ export class UserController {
   }
 
   @Post('update')
+  @UseGuards(AuthGuard('jwt'))
   public async updateUser(@Body() body: UpdateUserInput, @Query() query: UpdateUserParams): Promise<UpdateUserResult> {
     console.log(body, query);
     return await this.userService.updateUser({ ...query, ...body });
   }
 
   @Post('generate-pdf')
+  @UseGuards(AuthGuard('jwt'))
   public async generatePdf(@Body() body: GeneratePdfInput): Promise<GeneratePdfResult> {
     return await this.userService.generatePdf({ ...body });
   }
 
   @Get('get-generated-pdf')
+  @UseGuards(AuthGuard('jwt'))
   public async getGeneratedPdf(@Body() body: GetGeneratedPdfInput): Promise<GetGeneratedPdfResult> {
     return await this.userService.createUserPdfFromDB({ ...body });
   }

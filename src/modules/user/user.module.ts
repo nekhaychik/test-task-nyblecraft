@@ -1,6 +1,7 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from '../auth';
 import { UserService } from './application';
 import { UserDomain } from './domain';
 import { UserEntity, UserRepository } from './infrasctructure';
@@ -12,6 +13,7 @@ import { UserController } from './presentation';
     MulterModule.register({
       dest: './images',
     }),
+    forwardRef(() => AuthModule),
   ],
   controllers: [UserController],
   exports: [UserService, UserDomain],
